@@ -96,11 +96,11 @@ class Game: #ici nous avons cree un classe game , ainsi on peut lui donner des a
 
         while running:
 
-            self.move_enemy_towards_player()
+            """self.move_enemy_towards_player()
             self.moving()
             self.group.update()
             self.group.center(self.player.rect)
-            self.group.draw(self.screen)
+            self.group.draw(self.screen)"""
             pygame.display.flip()
             # les methodes elle vont pas vivre seule hein LOOL , dcp on les appelles tout le long , tu veux que je te les explique?
             for event in pygame.event.get():
