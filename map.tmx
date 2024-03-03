@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="15">
- <tileset firstgid="1" source="C:/Users/failsafe/natureset.tsx"/>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="16">
+ <tileset firstgid="1" source="../../natureset.tsx"/>
  <layer id="1" name="background" width="50" height="50">
   <data encoding="csv">
 0,292,292,295,292,292,292,292,412,413,414,415,415,415,375,375,375,375,335,335,335,295,294,412,412,412,294,412,412,292,292,292,292,293,294,295,292,293,294,295,292,293,294,295,292,293,294,295,292,295,
@@ -272,9 +272,12 @@
 </data>
  </layer>
  <objectgroup id="7" name="objets">
-  <object id="13" name="playerspawn" x="313.379" y="268.381">
+  <object id="13" name="playerspawn" x="313" y="268">
    <point/>
   </object>
   <object id="14" type="collision" x="1.60707" y="-1.60707" width="17.6778" height="800.321"/>
+  <object id="15" name="enemyspawn" x="449" y="349">
+   <point/>
+  </object>
  </objectgroup>
 </map>

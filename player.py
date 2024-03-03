@@ -1,3 +1,4 @@
+# tt pareil que l'ennemi
 import pygame
 
 
