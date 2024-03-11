@@ -16,6 +16,7 @@ class Game: #ici nous avons cree un classe game , ainsi on peut lui donner des a
 
         self.screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption('le labyrinthe mysterieux')
+        pygame.display.set_icon(pygame.image.load('icon.jpg'))
 
         # charger la carte
 

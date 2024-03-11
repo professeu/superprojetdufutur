@@ -36,7 +36,7 @@ class Homescreen:
 
             # dessiner le bouton play
             pygame.draw.rect(self.screen, (50, 50, 100), self.play_button)  # Green button color
-            play_text = font.render('Play', True, (255, 255, 255))  # White text color
+            play_text = font.render('JOUER', True, (255, 255, 255))  # White text color
             play_text_rect = play_text.get_rect(center=self.play_button.center)
             self.screen.blit(play_text, play_text_rect)
 
