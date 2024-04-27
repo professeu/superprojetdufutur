@@ -1,19 +1,18 @@
-# tt pareil que l'ennemi
 import pygame
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.sprite_sheet = pygame.image.load('player.png')
+        self.sprite_sheet = pygame.image.load('player2.png')
         self.image = self.get_image(0, 0)
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]
         self.images = {
             'down' : self.get_image(0, 0),
-            'right' : self.get_image(0, 64),
-            'left' : self.get_image(0, 128),
+            'left' : self.get_image(0, 64),
+            'right' : self.get_image(0, 128),
             'up' : self.get_image(0, 192)
         }
         self.speed = 3
