@@ -1,6 +1,6 @@
 import pygame
 from game import Game
-from home_screen import Homescreen
+from ScreensClass import Homescreen
 
 
 if __name__ == '__main__':

@@ -1,13 +1,20 @@
 import pygame
 
-pygame.init()
 
-
-class Homescreen:
+class ScreensClass:
 
     def __init__(self):
-        self.screen = pygame.display.set_mode((800, 600)) # l'attribut qui fait un ecran quon va donner au homescreen de la page main
-        self.background = pygame.image.load('home_image.jpg') #alors avec ca on met un background , g pas la bonne taile de photo
+        self.screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption('le labyrinthe mysterieux')
+
+
+class Homescreen(ScreensClass):
+
+    def __init__(self):
+        super().__init__()
+
+        self.background = pygame.image.load(
+            'home_image.jpg')  # alors avec ca on met un background , g pas la bonne taile de photo
         pygame.display.set_caption('Game Over')
         self.play_button = pygame.Rect(300, 300, 200, 50)
 
@@ -46,4 +53,3 @@ class Homescreen:
 if __name__ == "__main__":
     homescreen = Homescreen()
     homescreen.run()
-
