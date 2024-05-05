@@ -1,13 +1,11 @@
-# importation des modules nécessaires
 import pygame
 import pytmx
 import pyscroll
-# importation des classes contenus dans les autres fichiers .py
+# importation des classes contenus dans les autres fichiers python
 from player import Player
 from enemy import Enemy
 
 
-# Création classe game
 class Game:
 
     def __init__(self):
@@ -29,11 +27,14 @@ class Game:
         player_position = tmx_data.get_object_by_name('playerspawn')
         # Création de l'objet player en appelant la classe Player
         self.player = Player(player_position.x, player_position.y)
+        print(self.player.position)
 
         # generer un ennemi sur la map
 
         enemy_position = tmx_data.get_object_by_name('enemyspawn')
         self.enemy = Enemy(enemy_position.x, enemy_position.y)
+
+        self.entities = [self.player, self.enemy]
 
         # liste de rect qui génèrent des collisions
 
@@ -46,55 +47,22 @@ class Game:
 
         # dans l'attribut group chaque couche de la map tiled
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=5)
-        # on rajoute les objets pour quils apparaissent au dessus des default layers
+        # ajout des objets au dessus des default layers
         self.group.add(self.player)
         self.group.add(self.enemy)
 
-    # moving() deplace le joueur
+    def collision_all(self):
 
-    def moving_player(self):
+        self.player.collision_do()
+        self.enemy.collision_do()
 
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP]:
-            # self.player.save_position()
-            self.player.move_u()
-
-        if pressed[pygame.K_DOWN]:
-            # self.player.save_position()
-            self.player.move_d()
-
-        if pressed[pygame.K_RIGHT]:
-            # self.player.save_position()
-            self.player.move_r()
-
-        if pressed[pygame.K_LEFT]:
-            # self.player.save_position()
-            self.player.move_l()
-
-    # fonction déterminant le déplacement de l'ennemi
-    """
-    def move_enemy_towards_player(self):
-        # calcul de vecteurs déplacement en x et en y
-    
-        dx = int(self.player.position[0] - self.enemy.position[0])
-        dy = int(self.player.position[1] - self.enemy.position[1])
-    
-        if dx < 0:
-            self.enemy.move_l()
-    
-        if dx > 0:
-            self.enemy.move_r()
-    
-        if dy < 0:
-            self.enemy.move_u()
-    
-        if dy > 0:
-            self.enemy.move_d()
-        """
-
-    def collision_player(self):
-        if self.player.collision_test(self.walls):
-            self.player.move_back()
+    def update(self):
+        self.player.image.set_colorkey([0, 0, 0])
+        self.enemy.image.set_colorkey([0, 0, 0])
+        self.player.update_rect()
+        self.enemy.update_rect()
+        self.player.save_position()
+        self.enemy.save_position()
 
     def run(self):
 
@@ -104,13 +72,12 @@ class Game:
         # boucle du jeu
         while running:
 
-            self.player.save_position()
-            self.moving_player()
-            self.collision_player()
-            # self.move_enemy_towards_player()
+            self.player.moving_player()
+            self.enemy.move_enemy_towards_player(self.player)
+            self.collision_all()
 
-            self.player.image.set_colorkey([0, 0, 0])
-            self.enemy.image.set_colorkey([0, 0, 0])
+            self.update()
+
             self.group.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
@@ -123,4 +90,3 @@ class Game:
             clock.tick(60)
 
         pygame.quit()
-
