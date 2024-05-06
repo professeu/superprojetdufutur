@@ -21,7 +21,9 @@ class Enemy(Entity):
             'right_side': self.get_image(0, 128, self.imagesize)
         }
         self.speed = 1
-        # cest arbitraire
+        self.jauge = pygame.image.load('images/PV_vide.png')
+        self.initial_health = 20
+        self.health = self.initial_health
 
     # méthode du déplacement de l'ennemi
 
