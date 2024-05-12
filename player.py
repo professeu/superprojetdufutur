@@ -1,5 +1,6 @@
 import pygame
 from entity import Entity
+from projectile import Projectile
 
 
 class Player(Entity):
@@ -7,33 +8,48 @@ class Player(Entity):
 
         super().__init__(x, y)
 
-        self.sprite_sheet = pygame.image.load('images/player3.png')
-        self.imagesize = 64
-        self.image = self.get_image(0, 0, self.imagesize)
-        self.image.set_colorkey([0, 0, 0])
+        self.speed = 2
 
-        self.rect = self.image.get_rect()
-        self.feet = pygame.Rect(x, y - (self.imagesize / 2), self.imagesize, self.imagesize / 2)
+        self.health_max = 30
+        self.health = self.health_max
+        self.shield = 0
 
-        self.images = {
-            'front': self.get_image(0, 0, self.imagesize),
-            'back': self.get_image(0, 64, self.imagesize),
-            'left_side': self.get_image(0, 192, self.imagesize),
-            'right_side': self.get_image(0, 128, self.imagesize)
-        }
-        self.speed = 3
+        self.projectiles = []
 
     def moving_player(self):
 
         pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP]:
-            self.move_u()
+        if pygame.time.get_ticks() - self.attack_time > self.attack_cooldown:
+            if pressed[pygame.K_z]:
+                self.move_u()
 
-        if pressed[pygame.K_DOWN]:
-            self.move_d()
+            if pressed[pygame.K_s]:
+                self.move_d()
 
-        if pressed[pygame.K_RIGHT]:
-            self.move_r()
+            if pressed[pygame.K_d]:
+                self.move_r()
 
-        if pressed[pygame.K_LEFT]:
-            self.move_l()
+            if pressed[pygame.K_q]:
+                self.move_l()
+
+    def update(self):
+        self.wich_image()
+        self.image.set_colorkey([0, 0, 0])
+        self.update_rect()
+        self.save_position()
+
+        for proj in self.projectiles:
+            proj.moving()
+
+    def attack(self, enemy):
+        # affichage :
+        # action :
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_k] and pygame.time.get_ticks() - self.attack_time > self.attack_cooldown:
+            self.attack_time = pygame.time.get_ticks()
+            if self.rect.colliderect(enemy.rect):
+                enemy.damage(1)
+
+        if pressed[pygame.K_o] and pygame.time.get_ticks() - self.attack_time > self.attack_cooldown:
+            self.attack_time = pygame.time.get_ticks()
+            self.projectiles.append(Projectile(self))

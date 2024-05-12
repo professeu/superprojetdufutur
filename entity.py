@@ -9,12 +9,13 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
 
         self.sprite_sheet = pygame.image.load('images/player3.png')
-        self.imagesize = 64
-        self.image = self.get_image(0, 0, self.imagesize)
+        self.imagesize = [64, 64]
+        self.image = self.get_image(0, 0)
         self.image.set_colorkey([0, 0, 0])
+        self.direction = 'front'
 
         self.rect = self.image.get_rect()
-        self.feet = pygame.Rect(x, y + (self.imagesize/2), self.imagesize, self.imagesize/2)
+        self.feet = pygame.Rect(x, y + (self.imagesize[1]/2), self.imagesize[0], self.imagesize[1]/2)
 
         self.collision = Collision()
 
@@ -22,48 +23,57 @@ class Entity(pygame.sprite.Sprite):
         self.old_position = self.position.copy()
 
         self.images = {
-            'front': self.get_image(0, 0, self.imagesize),
-            'back': self.get_image(0, 16, self.imagesize),
-            'left_side': self.get_image(16, 0, self.imagesize),
-            'right_side': self.get_image(16, 16, self.imagesize)
+            'front': self.get_image(0, 0),
+            'back': self.get_image(0, 64),
+            'left_side': self.get_image(0, 192),
+            'right_side': self.get_image(0, 128)
         }
 
+        self.attack_images = {
+            'front': self.get_image(256, 0),
+            'back': self.get_image(256, 64),
+            'left_side': self.get_image(256, 192),
+            'right_side': self.get_image(256, 128)
+        }
+
+        self.image_dictionnary = self.images
+
         self.speed = 1
+        self.health_max = 20
+        self.health = self.health_max
+        self.attack_time = pygame.time.get_ticks()
+        self.attack_cooldown = 500
 
     def collision_test(self, t):
-        if self.feet.collidelist(t) >-1:
+        if self.feet.collidelist(t) > -1:
             return True
 
     def move_r(self):
-
         self.position[0] += self.speed
-        self.image = self.images['right_side']
+        self.direction = 'right_side'
         self.update_rect()
 
     def move_l(self):
-
         self.position[0] -= self.speed
-        self.image = self.images['left_side']
+        self.direction = 'left_side'
         self.update_rect()
 
     def move_d(self):
-
         self.position[1] += self.speed
-        self.image = self.images['front']
+        self.direction = 'front'
         self.update_rect()
 
     def move_u(self):
-
         self.position[1] -= self.speed
-        self.image = self.images['back']
+        self.direction = 'back'
         self.update_rect()
 
     def save_position(self):
         self.old_position = self.position.copy()
 
     def update_rect(self):
-        self.rect = pygame.Rect(self.position[0], self.position[1], self.imagesize, self.imagesize)
-        self.feet = pygame.Rect(self.position[0], self.position[1] + (self.imagesize/2), self.imagesize, self.imagesize/2)
+        self.rect = pygame.Rect(self.position[0], self.position[1], self.imagesize[0], self.imagesize[1])
+        self.feet = pygame.Rect(self.position[0], self.position[1] + (self.imagesize[1]/2), self.imagesize[0], self.imagesize[1]/2)
 
     def move_back(self):
         self.position = self.old_position.copy()
@@ -73,8 +83,23 @@ class Entity(pygame.sprite.Sprite):
         if self.collision_test(self.collision.walls):
             self.move_back()
 
-    def get_image(self, x, y, size):
-        image = pygame.Surface([size, size])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, size, size))
+    def get_image(self, x, y):
+        image = pygame.Surface(self.imagesize)
+        image.blit(self.sprite_sheet, (0, 0), (x, y, self.imagesize[0], self.imagesize[1]))
 
         return image
+
+    def damage(self, amount):
+        damages = amount - self.shield
+        if damages < 0:
+            damages = 0
+        self.health = self.health - damages
+
+    def update_attackcooldown(self): self.attack_time = pygame.time.get_ticks()
+
+    def wich_image(self):
+        if pygame.time.get_ticks() - self.attack_time > self.attack_cooldown:
+            self.image_dictionnary = self.images
+        else:
+            self.image_dictionnary = self.attack_images
+        self.image = self.image_dictionnary[self.direction]
