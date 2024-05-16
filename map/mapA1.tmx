@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="11" height="11" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="10">
+ <tileset firstgid="1" source="dungeon.tsx"/>
+ <tileset firstgid="57" name="black" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="black.png" width="32" height="32"/>
+ </tileset>
+ <layer id="1" name="background" width="11" height="11">
+  <data encoding="csv">
+57,57,57,57,57,57,57,57,57,57,57,
+57,16,18,18,26,26,18,18,19,23,57,
+57,25,26,19,23,18,25,17,19,16,57,
+57,19,19,23,23,17,23,26,23,18,57,
+57,16,23,23,18,25,26,18,23,25,57,
+57,19,23,18,17,17,25,17,17,18,26,
+57,19,17,17,17,16,16,25,19,26,57,
+57,16,23,17,23,23,26,26,26,26,57,
+57,26,19,17,16,16,18,17,23,23,57,
+57,19,19,26,25,17,25,17,26,19,57,
+57,57,57,57,57,57,57,57,57,57,57
+</data>
+ </layer>
+ <objectgroup id="5" name="objects">
+  <object id="1" type="collision" x="0" y="0" width="352" height="64"/>
+  <object id="2" type="collision" x="0" y="64" width="32" height="288"/>
+  <object id="3" type="collision" x="320" y="64" width="32" height="94"/>
+  <object id="4" type="collision" x="320" y="192" width="32" height="128"/>
+  <object id="5" type="collision" x="32" y="320" width="320" height="32"/>
+  <object id="6" name="coffre" type="potion_soin" x="160" y="64" width="32" height="32"/>
+  <object id="7" name="door" type="mapA" x="310.345" y="156.943" width="42.4807" height="38.3507"/>
+  <object id="8" name="playerspawn" type="mapA" x="213.584" y="200.013">
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="3" name="coffre" width="11" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,21,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="walls" width="11" height="11">
+  <data encoding="csv">
+1,2,4,2,5,2,5,3,5,5,6,
+22,9,10,9,11,10,10,12,12,9,27,
+22,0,0,0,0,0,0,0,0,0,27,
+22,0,0,0,0,0,0,0,0,0,13,
+15,0,0,0,0,0,0,0,0,0,43,
+22,0,0,0,0,0,0,0,0,0,0,
+15,0,0,0,0,0,0,0,0,0,36,
+22,0,0,0,0,0,0,0,0,0,20,
+15,0,0,0,0,0,0,0,0,0,27,
+8,0,0,0,0,0,0,0,0,0,13,
+29,30,30,30,32,33,31,33,31,30,34
+</data>
+ </layer>
+ <layer id="4" name="decorations" width="11" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,41,0,41,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
