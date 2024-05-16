@@ -45,16 +45,16 @@ class Game:
         self.enemies = []
 
         self.map_manager = MapManager(self.screen, self.player)
-        for enemy in self.map_manager.get_currentmap().enemies:
-            self.enemies.append(Enemy(enemy[0], enemy[1]))
+        self.enemies = self.map_manager.get_currentmap().enemies
+        self.npcs = self.map_manager.get_currentmap().npcs
 
         self.group = self.map_manager.get_group()
 
-        for npc in self.map_manager.get_currentmap().npcs:
-            self.group.add(npc)
+        # for npc in self.map_manager.get_currentmap().npcs:
+        #     self.group.add(npc)
 
-        for enemy in self.enemies:
-            self.group.add(enemy)
+        # for enemy in self.enemies:
+        #     self.group.add(enemy)
         self.walls = self.map_manager.get_walls()
 
     def collision_all(self):
@@ -79,34 +79,33 @@ class Game:
         # met à jour tous les éléments visuels des entités
 
         self.player.update()
-        self.show_health_player()
 
         for door in self.map_manager.get_currentmap().doors:
             if door.opened and door.rect in self.map_manager.get_currentmap().walls:
                 self.map_manager.get_currentmap().walls.remove(door.rect)
-
-        for proj in self.player.projectiles:
-            self.group.add(proj)
-            proj.update()
-            # retire le projectile des attributs group et enemies s'il n'est plus "en vie"
-            if not proj.alive:
-                self.group.remove(proj)
-                self.player.projectiles.remove(proj)
+        #
+        # for proj in self.player.projectiles:
+        #     self.group.add(proj)
+        #     proj.update()
+        #     # retire le projectile des attributs group et enemies s'il n'est plus "en vie"
+        #     if not proj.alive:
+        #         self.group.remove(proj)
+        #         self.player.projectiles.remove(proj)
             # test l'attaque sur tous les enemis
-            for enemy in self.enemies:
-                proj.attack(enemy)
+            # for enemy in self.enemies:
+            #     proj.attack(enemy)
 
         self.map_manager.update_map()
         if self.map_manager.other_map:
             self.enemies = []
-            for enemy in self.map_manager.get_currentmap().enemies:
-                self.enemies.append(Enemy(enemy[0], enemy[1]))
+            self.enemies = self.map_manager.get_currentmap().enemies
+            self.npcs = self.map_manager.get_currentmap().npcs
             self.map_manager.other_map = False
             self.group = self.map_manager.get_group()
+            self.walls = self.map_manager.get_walls()
 
             for enemy in self.enemies:
                 self.group.add(enemy)
-            self.walls = self.map_manager.get_walls()
 
         for enemy in self.enemies:
             enemy.update()
@@ -167,16 +166,17 @@ class Game:
 
         # boucle du jeu
         while self.running and self.playing:
+
             if not self.pause:
 
                 self.player.moving_player()
-                self.player.attack(self.enemies)
+                self.player.attack(self.enemies, self.group)
 
                 for enemy in self.enemies:
                     enemy.moving(self.player)
                 self.collision_all()
 
-                for npc in self.map_manager.get_currentmap().npcs:
+                for npc in self.npcs:
                     npc.talk(self)
 
                 self.update_all()
@@ -184,6 +184,10 @@ class Game:
             self.group.update()
             self.group.center(self.player.rect)
             self.group.draw(self.screen)
+            self.show_health_player()
+
+            for npc in self.map_manager.get_currentmap().npcs:
+                npc.talk(self)
 
             self.show_inventory()
             for chest in self.map_manager.get_currentmap().chests:

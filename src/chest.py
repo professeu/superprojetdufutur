@@ -24,17 +24,16 @@ class Chest:
             game.pause = True
             self.screen.blit(self.image, (230, 280))
             self.image.blit(self.content.image, (0, 0))
-        else:
-            game.pause = False
 
-    def ramasse_obj(self):
+    def ramasse_obj(self, game):
         if self.opened:
             if pygame.key.get_pressed()[pygame.K_RETURN]:
                 self.player.inventory.slots.append(self.content)
                 self.opened = False
                 self.alive = False
-
+                game.pause = False
+                
     def update(self, game):
         self.open()
         self.draw(game)
-        self.ramasse_obj()
+        self.ramasse_obj(game)

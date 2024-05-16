@@ -60,7 +60,7 @@ class Inventaire:
         return x, y
 
     def draw(self, game):
-        self.open_or_close()
+        self.open_or_close(game)
         if self.show_active:
             game.pause = True
             pygame.Surface.blit(game.screen, self.image, (230, 130))
@@ -69,18 +69,19 @@ class Inventaire:
                 if item:
                     x, y = self.item_position(i)
                     self.image.blit(item.image, (x, y))
-        else:
-            game.pause = False
 
-    def open_or_close(self):
+    def open_or_close(self, game):
 
         if pygame.key.get_pressed()[pygame.K_i]:
             if not self.old_key:
                 self.old_key = pygame.key.get_pressed()[pygame.K_i]
                 if self.show_active:
                     self.show_active = False
+                    game.pause = False
                 else:
                     self.show_active = True
+                    game.pause = True
         self.old_key = pygame.key.get_pressed()[pygame.K_i]
+
 
 

@@ -1,7 +1,8 @@
 import pygame, pyscroll, pytmx
 from doors import Door
 from chest import Chest
-from npc import  NPC
+from npc import NPC
+from enemy import Enemy
 
 
 class Map:
@@ -28,7 +29,7 @@ class Map:
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.chests.append(Chest(self.screen, rect, obj.type, self.player))
             if obj.name == 'enemy':
-                self.enemies.append([obj.x, obj.y])
+                self.enemies.append(Enemy(obj.x, obj.y))
             elif obj.name == 'door':
                 rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
                 self.doors.append(Door(rect, obj.type, True, self.player))
@@ -37,6 +38,10 @@ class Map:
                 self.npcs.append(NPC(obj.x, obj.y))
 
             self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=5)
+            for enemy in self.enemies:
+                self.group.add(enemy)
+            for npc in self.npcs:
+                self.group.add(npc)
             self.group.add(self.player)
 
 
@@ -46,7 +51,7 @@ class MapManager:
         self.maps = []
         self.screen = screen
         self.player = player
-        # self.enemies = []
+
         self.current_map = "start_room"
         self.old_map = self.current_map
         self.register_all()

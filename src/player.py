@@ -61,10 +61,7 @@ class Player(Entity):
         self.update_rect()
         self.save_position()
 
-        for proj in self.projectiles:
-            proj.moving()
-
-    def attack(self, t):
+    def attack(self, t, group):
         # affichage :
         # action :
         pressed = pygame.key.get_pressed()
@@ -76,4 +73,15 @@ class Player(Entity):
 
         if pressed[pygame.K_o] and pygame.time.get_ticks() - self.attack_time > self.attack_cooldown:
             self.attack_time = pygame.time.get_ticks()
-            self.projectiles.append(Projectile(self))
+            proj = Projectile(self)
+            self.projectiles.append(proj)
+            group.add(proj)
+
+        for proj in self.projectiles:
+            for enemy in t:
+                proj.attack(enemy)
+
+                if proj.alive:
+                    proj.moving()
+                else:
+                    group.remove(proj)

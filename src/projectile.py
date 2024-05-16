@@ -8,6 +8,7 @@ class Projectile(Entity):
         super().__init__(player.position[0], player.position[1])
 
         self.direction = player.direction
+
         self.positions = {
             'front': [player.position[0] + player.imagesize[0]/4, player.position[1] + player.imagesize[1]/2],
             'back': [player.position[0] + player.imagesize[0]/4, player.position[1]],
